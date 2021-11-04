@@ -4,100 +4,97 @@ using System.Linq;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
 
-using FluentAssertions;
-
 namespace StringConcatBenchmark
 {
     public class Program
     {
         public static string[] data
-            = Enumerable.Range(1, 10).Select(x => Guid.NewGuid().ToString()).ToArray();
+            = Enumerable.Range(1, 1000).Select(x => Guid.NewGuid().ToString()).ToArray();
 
         public static string result
             = data.Aggregate((a, b) => string.Concat(a, b));
 
         public static void Main(string[] args)
-            => BenchmarkRunner.Run<Tests>();
+            => BenchmarkRunner.Run<TestHarness>();
     }
 
-    public class Tests
+    public class TestHarness
     {
         [Benchmark(Baseline = true)]
-        public void StringPlusString()
+        public string StringPlusString()
         {
             var result = string.Empty;
             foreach (var item in Program.data)
             {
                 result = result + item;
             }
-            result.Should().BeEquivalentTo(Program.result);
+            return result;
         }
 
         [Benchmark]
-        public void StringPlusEqualsString()
+        public string StringPlusEqualsString()
         {
             var result = string.Empty;
             foreach (var item in Program.data)
             {
                 result += item;
             }
-            result.Should().BeEquivalentTo(Program.result);
+            return result;
         }
 
         [Benchmark]
-        public void StringInterpolation()
+        public string StringInterpolation()
         {
             var result = string.Empty;
             foreach (var item in Program.data)
             {
                 result = $"{result}{item}";
             }
-            result.Should().BeEquivalentTo(Program.result);
+            return result;
         }
 
         [Benchmark]
-        public void StringFormat()
+        public string StringFormat()
         {
             var result = string.Empty;
             foreach (var item in Program.data)
             {
                 result = string.Format("{0}{1}", result, item);
             }
-            result.Should().BeEquivalentTo(Program.result);
+            return result;
         }
 
         [Benchmark]
-        public void StringConcat()
+        public string StringConcat()
         {
             var result = string.Empty;
             foreach (var item in Program.data)
             {
                 result = string.Concat(result, item);
             }
-            result.Should().BeEquivalentTo(Program.result);
+            return result;
         }
 
         [Benchmark]
-        public void StringJoin()
+        public string StringJoin()
         {
             var result = string.Empty;
             foreach (var item in Program.data)
             {
                 result = string.Join(string.Empty, result, item);
             }
-            result.Should().BeEquivalentTo(Program.result);
+            return result;
         }
 
         [Benchmark]
-        public void StringBuilder()
+        public string StringBuilder()
         {
             var sb = new System.Text.StringBuilder();
             foreach (var item in Program.data)
             {
                 sb.Append(item);
             }
-            var result = sb.ToString();
-            result.Should().BeEquivalentTo(Program.result);
+            return sb.ToString();
         }
     }
 }

@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.31129.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringConcatBenchmark", "StringConcatBenchmark.csproj", "{4EFFA1A5-C58C-4A4B-9EB7-094D282AF92A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringConcatBenchmark.Tests", "..\StringConcatBenchmark.Tests\StringConcatBenchmark.Tests.csproj", "{70FF2C18-63F3-44F9-888C-E06E7AF440B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{4EFFA1A5-C58C-4A4B-9EB7-094D282AF92A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4EFFA1A5-C58C-4A4B-9EB7-094D282AF92A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4EFFA1A5-C58C-4A4B-9EB7-094D282AF92A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70FF2C18-63F3-44F9-888C-E06E7AF440B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70FF2C18-63F3-44F9-888C-E06E7AF440B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70FF2C18-63F3-44F9-888C-E06E7AF440B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70FF2C18-63F3-44F9-888C-E06E7AF440B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
