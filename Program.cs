@@ -67,7 +67,7 @@ namespace StringConcatBenchmark
         }
 
         [Benchmark]
-        public void StringConcatString()
+        public void StringConcat()
         {
             var result = string.Empty;
             foreach (var item in Program.data)
@@ -78,7 +78,7 @@ namespace StringConcatBenchmark
         }
 
         [Benchmark]
-        public void StringJoinString()
+        public void StringJoin()
         {
             var result = string.Empty;
             foreach (var item in Program.data)
