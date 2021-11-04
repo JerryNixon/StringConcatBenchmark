@@ -18,6 +18,8 @@ namespace StringConcatBenchmark
             => BenchmarkRunner.Run<TestHarness>();
     }
 
+    [ShortRunJob]
+    [MemoryDiagnoser]
     public class TestHarness
     {
         [Benchmark(Baseline = true)]
