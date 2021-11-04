@@ -1,9 +1,11 @@
 Jump to the [script](Program.cs).
 
+<!--
 <style>
   th { white-space: nowrap; }
   td { white-space: nowrap; }
 </style>
+-->
 
 # Benchmark results
 
