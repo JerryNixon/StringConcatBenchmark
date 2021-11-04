@@ -13,17 +13,17 @@ namespace StringConcatBenchmark
         public static string[] data
             = Enumerable.Range(1, 10).Select(x => Guid.NewGuid().ToString()).ToArray();
 
-        public static string result 
+        public static string result
             = data.Aggregate((a, b) => string.Concat(a, b));
 
-        public static void Main(string[] args) 
+        public static void Main(string[] args)
             => BenchmarkRunner.Run<Tests>();
     }
 
     public class Tests
     {
         [Benchmark(Baseline = true)]
-        public void StringPlusString() 
+        public void StringPlusString()
         {
             var result = string.Empty;
             foreach (var item in Program.data)
@@ -78,30 +78,12 @@ namespace StringConcatBenchmark
         }
 
         [Benchmark]
-        public void StringConcatArray()
-        {
-            var result = string.Concat(Program.data);
-            result.Should().BeEquivalentTo(Program.result);
-        }
-
-        [Benchmark]
         public void StringJoinString()
         {
             var result = string.Empty;
             foreach (var item in Program.data)
             {
                 result = string.Join(string.Empty, result, item);
-            }
-            result.Should().BeEquivalentTo(Program.result);
-        }
-
-        [Benchmark]
-        public void ArrayUnionArray()
-        {
-            var result = string.Empty;
-            foreach (var item in Program.data)
-            {
-                result = string.Join(string.Empty, result.Union(item));
             }
             result.Should().BeEquivalentTo(Program.result);
         }
@@ -117,14 +99,5 @@ namespace StringConcatBenchmark
             var result = sb.ToString();
             result.Should().BeEquivalentTo(Program.result);
         }
-
-        [Benchmark]
-        public void IrrelevantLinqSyntax()
-        {
-            var sb = new System.Text.StringBuilder();
-            var result = Program.data.Aggregate((a, b) => string.Concat(a, b));
-            result.Should().BeEquivalentTo(Program.result);
-        }
-        
     }
 }
