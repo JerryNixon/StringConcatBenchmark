@@ -11,7 +11,7 @@ namespace StringConcatBenchmark
     public class Program
     {
         public static string[] data
-            = Enumerable.Range(1, 1000).Select(x => Guid.NewGuid().ToString()).ToArray();
+            = Enumerable.Range(1, 10).Select(x => Guid.NewGuid().ToString()).ToArray();
 
         public static string result 
             = data.Aggregate((a, b) => string.Concat(a, b));
@@ -23,7 +23,7 @@ namespace StringConcatBenchmark
     public class Tests
     {
         [Benchmark(Baseline = true)]
-        public void _1() 
+        public void StringPlusString() 
         {
             var result = string.Empty;
             foreach (var item in Program.data)
@@ -34,7 +34,7 @@ namespace StringConcatBenchmark
         }
 
         [Benchmark]
-        public void _2()
+        public void StringPlusEqualsString()
         {
             var result = string.Empty;
             foreach (var item in Program.data)
@@ -45,7 +45,29 @@ namespace StringConcatBenchmark
         }
 
         [Benchmark]
-        public void _3()
+        public void StringInterpolation()
+        {
+            var result = string.Empty;
+            foreach (var item in Program.data)
+            {
+                result = $"{result}{item}";
+            }
+            result.Should().BeEquivalentTo(Program.result);
+        }
+
+        [Benchmark]
+        public void StringFormat()
+        {
+            var result = string.Empty;
+            foreach (var item in Program.data)
+            {
+                result = string.Format("{0}{1}", result, item);
+            }
+            result.Should().BeEquivalentTo(Program.result);
+        }
+
+        [Benchmark]
+        public void StringConcatString()
         {
             var result = string.Empty;
             foreach (var item in Program.data)
@@ -56,19 +78,14 @@ namespace StringConcatBenchmark
         }
 
         [Benchmark]
-        public void _4()
+        public void StringConcatArray()
         {
-            var result = string.Empty;
-            foreach (var item in Program.data)
-            {
-                result = $"{result}{item}";
-            }
+            var result = string.Concat(Program.data);
             result.Should().BeEquivalentTo(Program.result);
         }
 
-
         [Benchmark]
-        public void _5()
+        public void StringJoinString()
         {
             var result = string.Empty;
             foreach (var item in Program.data)
@@ -77,5 +94,37 @@ namespace StringConcatBenchmark
             }
             result.Should().BeEquivalentTo(Program.result);
         }
+
+        [Benchmark]
+        public void ArrayUnionArray()
+        {
+            var result = string.Empty;
+            foreach (var item in Program.data)
+            {
+                result = string.Join(string.Empty, result.Union(item));
+            }
+            result.Should().BeEquivalentTo(Program.result);
+        }
+
+        [Benchmark]
+        public void StringBuilder()
+        {
+            var sb = new System.Text.StringBuilder();
+            foreach (var item in Program.data)
+            {
+                sb.Append(item);
+            }
+            var result = sb.ToString();
+            result.Should().BeEquivalentTo(Program.result);
+        }
+
+        [Benchmark]
+        public void IrrelevantLinqSyntax()
+        {
+            var sb = new System.Text.StringBuilder();
+            var result = Program.data.Aggregate((a, b) => string.Concat(a, b));
+            result.Should().BeEquivalentTo(Program.result);
+        }
+        
     }
 }
