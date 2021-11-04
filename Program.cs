@@ -23,7 +23,7 @@ namespace StringConcatBenchmark
     public class TestHarness
     {
         [Benchmark(Baseline = true)]
-        public string StringPlusString()
+        public string StringPlus()
         {
             var result = string.Empty;
             foreach (var item in Program.data)
@@ -34,7 +34,7 @@ namespace StringConcatBenchmark
         }
 
         [Benchmark]
-        public string StringPlusEqualsString()
+        public string StringPlusEquals()
         {
             var result = string.Empty;
             foreach (var item in Program.data)
