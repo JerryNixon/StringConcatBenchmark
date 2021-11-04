@@ -1,4 +1,4 @@
-Jump to the [script](Program.cs).
+Jump to the [script](StringConcatBenchmark/Program.cs).
 
 <!--
 <style>
