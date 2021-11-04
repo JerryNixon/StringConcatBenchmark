@@ -1,5 +1,6 @@
 ﻿
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Engines;
 
 namespace StringConcatBenchmark
 {
@@ -7,6 +8,8 @@ namespace StringConcatBenchmark
     [MemoryDiagnoser]
     public class TestHarness
     {
+        private readonly Consumer _consumer = new();
+
         [Benchmark(Baseline = true)]
         public string StringPlus()
         {
@@ -15,6 +18,7 @@ namespace StringConcatBenchmark
             {
                 result = result + item;
             }
+            _consumer.Consume(result);
             return result;
         }
 
@@ -26,6 +30,7 @@ namespace StringConcatBenchmark
             {
                 result += item;
             }
+            _consumer.Consume(result);
             return result;
         }
 
@@ -37,6 +42,7 @@ namespace StringConcatBenchmark
             {
                 result = $"{result}{item}";
             }
+            _consumer.Consume(result);
             return result;
         }
 
@@ -48,6 +54,7 @@ namespace StringConcatBenchmark
             {
                 result = string.Format("{0}{1}", result, item);
             }
+            _consumer.Consume(result);
             return result;
         }
 
@@ -59,6 +66,7 @@ namespace StringConcatBenchmark
             {
                 result = string.Concat(result, item);
             }
+            _consumer.Consume(result);
             return result;
         }
 
@@ -70,6 +78,7 @@ namespace StringConcatBenchmark
             {
                 result = string.Join(string.Empty, result, item);
             }
+            _consumer.Consume(result);
             return result;
         }
 
@@ -81,7 +90,9 @@ namespace StringConcatBenchmark
             {
                 sb.Append(item);
             }
-            return sb.ToString();
+            var result = sb.ToString();
+            _consumer.Consume(result);
+            return result;
         }
     }
 }
