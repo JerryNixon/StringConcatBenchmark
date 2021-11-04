@@ -2,19 +2,21 @@
 using System.Linq;
 
 using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Engines;
 using BenchmarkDotNet.Running;
 
-using Perfolizer.Mathematics.OutlierDetection;
+using FluentAssertions;
 
 namespace StringConcatBenchmark
 {
     public class Program
     {
-        public static string[] data = Enumerable
-            .Range(1, 1000).Select(x => Guid.NewGuid().ToString()).ToArray();
+        public static string[] data
+            = Enumerable.Range(1, 1000).Select(x => Guid.NewGuid().ToString()).ToArray();
 
-        public static void Main(string[] args)
+        public static string result 
+            = data.Aggregate((a, b) => string.Concat(a, b));
+
+        public static void Main(string[] args) 
             => BenchmarkRunner.Run<Tests>();
     }
 
@@ -26,8 +28,9 @@ namespace StringConcatBenchmark
             var result = string.Empty;
             foreach (var item in Program.data)
             {
-                result += item;
+                result = result + item;
             }
+            result.Should().BeEquivalentTo(Program.result);
         }
 
         [Benchmark]
@@ -36,8 +39,9 @@ namespace StringConcatBenchmark
             var result = string.Empty;
             foreach (var item in Program.data)
             {
-                result = result + item;
+                result += item;
             }
+            result.Should().BeEquivalentTo(Program.result);
         }
 
         [Benchmark]
@@ -48,6 +52,7 @@ namespace StringConcatBenchmark
             {
                 result = string.Concat(result, item);
             }
+            result.Should().BeEquivalentTo(Program.result);
         }
 
         [Benchmark]
@@ -56,8 +61,9 @@ namespace StringConcatBenchmark
             var result = string.Empty;
             foreach (var item in Program.data)
             {
-                result = result.Concat(item).ToString();
+                result = $"{result}{item}";
             }
+            result.Should().BeEquivalentTo(Program.result);
         }
 
 
@@ -69,6 +75,7 @@ namespace StringConcatBenchmark
             {
                 result = string.Join(string.Empty, result, item);
             }
+            result.Should().BeEquivalentTo(Program.result);
         }
     }
 }
