@@ -7,7 +7,7 @@ Jump to the [script](Program.cs).
 </style>
 -->
 
-# Benchmark results
+### Benchmark results
 
 |              Method |        Mean |        Error |     StdDev | Ratio | RatioSD |     Gen 0 |    Gen 1 | Allocated |
 |-------------------- |------------:|-------------:|-----------:|------:|--------:|----------:|---------:|----------:|
