@@ -1,1 +1,2 @@
-# StringConcatBenchmark
+# Benchmark results
+
