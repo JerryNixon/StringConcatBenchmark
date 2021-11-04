@@ -14,7 +14,7 @@ namespace StringConcatBenchmark
         public string StringPlus()
         {
             var result = string.Empty;
-            foreach (var item in Program.data)
+            foreach (var item in SampleData.data)
             {
                 result = result + item;
             }
@@ -26,7 +26,7 @@ namespace StringConcatBenchmark
         public string StringPlusEquals()
         {
             var result = string.Empty;
-            foreach (var item in Program.data)
+            foreach (var item in SampleData.data)
             {
                 result += item;
             }
@@ -38,7 +38,7 @@ namespace StringConcatBenchmark
         public string StringInterpolation()
         {
             var result = string.Empty;
-            foreach (var item in Program.data)
+            foreach (var item in SampleData.data)
             {
                 result = $"{result}{item}";
             }
@@ -50,7 +50,7 @@ namespace StringConcatBenchmark
         public string StringFormat()
         {
             var result = string.Empty;
-            foreach (var item in Program.data)
+            foreach (var item in SampleData.data)
             {
                 result = string.Format("{0}{1}", result, item);
             }
@@ -62,7 +62,7 @@ namespace StringConcatBenchmark
         public string StringConcat()
         {
             var result = string.Empty;
-            foreach (var item in Program.data)
+            foreach (var item in SampleData.data)
             {
                 result = string.Concat(result, item);
             }
@@ -74,7 +74,7 @@ namespace StringConcatBenchmark
         public string StringJoin()
         {
             var result = string.Empty;
-            foreach (var item in Program.data)
+            foreach (var item in SampleData.data)
             {
                 result = string.Join(string.Empty, result, item);
             }
@@ -86,7 +86,7 @@ namespace StringConcatBenchmark
         public string StringBuilder()
         {
             var sb = new System.Text.StringBuilder();
-            foreach (var item in Program.data)
+            foreach (var item in SampleData.data)
             {
                 sb.Append(item);
             }
