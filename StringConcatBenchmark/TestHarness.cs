@@ -4,7 +4,6 @@ using BenchmarkDotNet.Engines;
 
 namespace StringConcatBenchmark
 {
-    [ShortRunJob]
     [MemoryDiagnoser]
     public class TestHarness
     {
