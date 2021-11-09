@@ -27,6 +27,13 @@ namespace StringConcatBenchmark
         }
 
         [Test]
+        public void StringPlusEqualsScrewy()
+        {
+            var result = _tests.StringPlusEqualsScrewy();
+            Assert.AreEqual(result, SampleData.Result);
+        }
+
+        [Test]
         public void StringInterpolation()
         {
             var result = _tests.StringInterpolation();

@@ -34,6 +34,18 @@ namespace StringConcatBenchmark
         }
 
         [Benchmark]
+        public string StringPlusEqualsScrewy()
+        {
+            var result = string.Empty;
+            foreach (var item in SampleData.Source)
+            {
+                result = result += item;
+            }
+            _consumer.Consume(result);
+            return result;
+        }
+
+        [Benchmark]
         public string StringInterpolation()
         {
             var result = string.Empty;
