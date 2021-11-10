@@ -2,6 +2,8 @@
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Engines;
 
+using System;
+
 namespace StringConcatBenchmark
 {
     [MemoryDiagnoser]
@@ -10,88 +12,25 @@ namespace StringConcatBenchmark
         private readonly Consumer _consumer = new();
 
         [Benchmark(Baseline = true)]
-        public string StringPlus()
-        {
-            var result = string.Empty;
-            foreach (var item in SampleData.Source)
-            {
-                result = result + item;
-            }
-            _consumer.Consume(result);
-            return result;
-        }
+        public string StringPlus() => RunLoop((a, b) => a + b);
 
         [Benchmark]
-        public string StringPlusEquals()
-        {
-            var result = string.Empty;
-            foreach (var item in SampleData.Source)
-            {
-                result += item;
-            }
-            _consumer.Consume(result);
-            return result;
-        }
+        public string StringPlusEquals() => RunLoop((a, b) => a += b);
 
         [Benchmark]
-        public string StringPlusEqualsScrewy()
-        {
-            var result = string.Empty;
-            foreach (var item in SampleData.Source)
-            {
-                result = result += item;
-            }
-            _consumer.Consume(result);
-            return result;
-        }
+        public string StringPlusEqualsScrewy() => RunLoop((a, b) => a = a += b);
 
         [Benchmark]
-        public string StringInterpolation()
-        {
-            var result = string.Empty;
-            foreach (var item in SampleData.Source)
-            {
-                result = $"{result}{item}";
-            }
-            _consumer.Consume(result);
-            return result;
-        }
+        public string StringInterpolation() => RunLoop((a, b) => $"{a}{b}");
 
         [Benchmark]
-        public string StringFormat()
-        {
-            var result = string.Empty;
-            foreach (var item in SampleData.Source)
-            {
-                result = string.Format("{0}{1}", result, item);
-            }
-            _consumer.Consume(result);
-            return result;
-        }
+        public string StringFormat() => RunLoop((a, b) => string.Format("{0}{1}", a, b));
 
         [Benchmark]
-        public string StringConcat()
-        {
-            var result = string.Empty;
-            foreach (var item in SampleData.Source)
-            {
-                result = string.Concat(result, item);
-            }
-            _consumer.Consume(result);
-            return result;
-        }
+        public string StringConcat() => RunLoop((a, b) => string.Concat(a, b));
 
         [Benchmark]
-        public string StringJoin()
-        {
-            var result = string.Empty;
-            foreach (var item in SampleData.Source)
-            {
-                result = string.Join(string.Empty, result, item);
-            }
-            _consumer.Consume(result);
-            return result;
-        }
+        public string StringJoin() => RunLoop((a, b) => string.Join(string.Empty, a, b));
 
         [Benchmark]
         public string StringBuilder()
@@ -101,9 +40,23 @@ namespace StringConcatBenchmark
             {
                 sb.Append(item);
             }
-            var result = sb.ToString();
-            _consumer.Consume(result);
-            return result;
+            return Consume(sb.ToString());
+        }
+
+        private string Consume(string value)
+        {
+            _consumer.Consume(value);
+            return value;
+        }
+
+        private string RunLoop(Func<string, string, string> func)
+        {
+            var result = string.Empty;
+            foreach (var item in SampleData.Source)
+            {
+                result = func(result, item);
+            }
+            return Consume(result);
         }
     }
 }
