@@ -37,20 +37,17 @@ namespace StringConcatBenchmark
         {
             var sb = new System.Text.StringBuilder();
             SampleData.Source.ForEach(x => sb.Append(x));
-            return Consume(sb.ToString());
-        }
-
-        private string Consume(string value)
-        {
-            _consumer.Consume(value);
-            return value;
+            var result = sb.ToString();
+            _consumer.Consume(result);
+            return result;
         }
 
         private string RunLoop(Func<string, string, string> func)
         {
             var result = string.Empty;
             SampleData.Source.ForEach(x => result = func(result, x));
-            return Consume(result);
+            _consumer.Consume(result);
+            return result;
         }
     }
 }
