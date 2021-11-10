@@ -1,11 +1,11 @@
-﻿
-using BenchmarkDotNet.Attributes;
+﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Engines;
 
 using System;
 
 namespace StringConcatBenchmark
 {
+    [SimpleJob]
     [MemoryDiagnoser]
     public class TestHarness
     {
@@ -36,10 +36,7 @@ namespace StringConcatBenchmark
         public string StringBuilder()
         {
             var sb = new System.Text.StringBuilder();
-            foreach (var item in SampleData.Source)
-            {
-                sb.Append(item);
-            }
+            SampleData.Source.ForEach(x => sb.Append(x));
             return Consume(sb.ToString());
         }
 
@@ -52,10 +49,7 @@ namespace StringConcatBenchmark
         private string RunLoop(Func<string, string, string> func)
         {
             var result = string.Empty;
-            foreach (var item in SampleData.Source)
-            {
-                result = func(result, item);
-            }
+            SampleData.Source.ForEach(x => result = func(result, x));
             return Consume(result);
         }
     }
